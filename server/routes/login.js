@@ -14,6 +14,4 @@ router.post('/', async(req,res)=>{
     }
 })
 
-
-
 return Users;
