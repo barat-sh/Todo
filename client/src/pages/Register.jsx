@@ -98,6 +98,7 @@ export const Register = ()=>{
                             alert(response.data.message)
                         }
                     })
+                    window.location("http://localhost:3001/login")
                   }}
                   className="flex w-full justify-center rounded-md bg-green-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600"
                 >
@@ -109,9 +110,7 @@ export const Register = ()=>{
             <p className="mt-10 text-center text-sm text-gray-500">
               Already a User? {' '}
               <Link to="/login" className="ml-2">
-                <button>
-                  <button type="submit" className="flex justify-center rounded-md bg-green-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800">Log-in</button>
-                </button>
+                  <button type="submit" className="justify-center rounded-md bg-green-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800">Log-in</button>
               </Link>
             </p>
           </div>

@@ -71,9 +71,10 @@ export const Login = ()=>{
                     axios.post("http://localhost:3001/user/login",{email:email,password:password})
                     .then(response=>{
                       if(response.data.id){
-                        console.log(response.data.id)
+                        localStorage.setItem("jwToken",response.data.token)
+                        window.location.replace(`http://localhost:5173/${response.data.id}`);
                       }else{
-                        console.log(response.data.message)
+                        alert(response.data.message)
                       }
                     })
                   }}
@@ -87,11 +88,8 @@ export const Login = ()=>{
             <p className="mt-10 text-center text-sm text-gray-500">
               Not a User? {' '}
               <Link to="/register" className="ml-2">
-                <button>
-                  <button type="submit" className="flex justify-center rounded-md bg-green-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800">Register</button>
-                </button>
+                  <button type="submit" className="justify-center rounded-md bg-green-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-800">Register</button>
               </Link>
-              
             </p>
           </div>
         </div>

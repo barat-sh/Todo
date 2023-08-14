@@ -1,20 +1,16 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const json = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const router = express.Router()
 
-// secret key
-const SECRET = "s3cr3tk3y"
-
-// bcrypt
-
-
+// jwt
+const {verify_token,generateToken} = require("../auths/JWT")
 // db
 const User = require("../model/Users");
 
 router.get("/data",async(req,res)=>{
     const list_of_users = await User.find()
-    res.send(list_of_users)
+    res.json(list_of_users)
 })
 
 router.post("/register",async(req,res)=>{
@@ -46,25 +42,27 @@ router.post("/register",async(req,res)=>{
 router.post("/login",async(req,res)=>{
     const {email,password} = req.body;
     const alreadyExists = await User.findOne({email});
-    if(alreadyExists && password === alreadyExists.password){
-        res.json({id:alreadyExists.id})
+    if(alreadyExists){
+        bcrypt.compare(password,alreadyExists.password,(err,result)=>{
+            if (err){
+                res.json({message:"Error",err})
+            }else{
+                if (result){
+                    const jwt_token = generateToken(alreadyExists.id)
+                    res.json({
+                        id:alreadyExists.id,
+                        token:jwt_token
+                    })
+                }else{
+                    res.json({message:"Incorrect email or password"})
+                }
+            }
+        })
+        
     }else{
         res.json({message:"Incorrect email or password"})
     }
 })
 
-router.get("/:id",async(req,res)=>{
-    const id = req.params.id;
-    const alreadyExists = await User.findById(id)
-    if (alreadyExists){
-        const user = {
-            email:alreadyExists.email,
-            tasks:alreadyExists.tasks
-        }
-        res.json({user})
-    }else{
-        res.status(404)
-    }
-})
 
 module.exports = router

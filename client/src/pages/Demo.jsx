@@ -1,25 +1,14 @@
-import { useState } from "react"
+import { useEffect,useState } from "react"
 import axios from "axios";
 
 export const Demo = () => {
-    const [email,setEmail] = useState("");
-    const [password,setPassword] = useState("")
+    const [list,setList] = useState()
+    // axios("http://localhost:3001/user/data").then(response=>{console.log(response.data)})
+    useEffect(()=>{
+        axios.get("http://localhost:3001/user/data").then(response=>{setList(response.data)})
+    },[])
+    
     return <div>
-        <input type="text" onChange={(event)=>{setEmail(event.target.value)}} />
-        <input type="password" onChange={(event)=>{setPassword(event.target.value)}}/>
-        <button type="submit" onClick={()=>{
-            const user = {
-                email,
-                password
-            }
-            axios.post("http://localhost:3001/user/login",user).then(response=>{
-                if (response.data.id){
-                    console.log(response.data.id)
-                }else{
-                    console.log(response.data.message)
-                }
-            })
-           
-        }}>submit</button>
+        {JSON.stringify(list)}
     </div>
 }
