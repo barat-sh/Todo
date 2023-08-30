@@ -67,16 +67,14 @@ export const Login = ()=>{
               <div>
                 <button
                   type="submit"
-                  onClick={()=>{
-                    axios.post("http://localhost:3001/user/login",{email:email,password:password})
-                    .then(response=>{
-                      if(response.data.id){
-                        localStorage.setItem("jwToken",response.data.token)
-                        window.location.replace(`http://localhost:5173/${response.data.id}`);
-                      }else{
-                        alert(response.data.message)
-                      }
-                    })
+                  onClick={async ()=>{
+                    const response = await axios.post("http://localhost:3001/user/login",{email:email,password:password})
+                    if(response.data.id){
+                      localStorage.setItem("jwToken",response.data.token)
+                      window.location = `http://localhost:5173/${response.data.id}`;
+                    }else{
+                      alert(response.data.message)
+                    }
                   }}
                   className="flex w-full justify-center rounded-md bg-green-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600"
                 >
